@@ -1,12 +1,377 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://sites.google.com/view/celtanews/inicio?authuser=0">
-  <title>Redireccionando...</title>
+
+    <title>Eventos Deportivos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  rel="icon"   href="https://cdn-icons-png.flaticon.com/512/747/747965.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        
+        body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #161616;
+                color: #ffffff;
+                display: flex;
+                flex-direction: column; 
+                min-height: 100vh;
+            }
+            .container {
+                flex: 1; 
+                width: 90%;
+                padding: 20px;
+                background-color: #0e0e0e;
+                border-radius: 8px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                margin: 20px auto;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #ffffff;
+            }
+
+            .search-container
+            {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+                width: 100%;
+            }
+
+            .input-search {
+                padding: 10px;
+                border: 1px solid #3f8abd;
+                border-radius: 5px;
+                width: 30%;
+                background-color: #333333;
+                color: #ffffff;
+            }
+
+
+            .categories {
+                display: flex;
+                flex-wrap: wrap; 
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .category {
+                padding: 10px 20px;
+                background-color: #333333;
+                color: #ffffff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: background-color 0.3s, transform 0.3s;
+            }
+            .category.active {
+                background-color: #5d5d5d;
+                transform: scale(1.05);
+            }
+            .category:hover {
+                background-color: #3f8abd;
+            }
+            .event {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #181818;
+                padding: 10px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+            .event:hover {
+                transform: scale(1.02);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            }
+            .event-name {
+                font-size: 16px;
+                color: #ffffff;
+                margin: 0;
+                /* flex: 1; */
+                width: 80%;
+            }
+            
+            .copy-button {
+                padding: 8px 20px 8px 20px;
+                background-color: #3f8abd;
+                color: #ffffff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-left: 10px;
+                margin-right: 10px;
+                transition: background-color 0.3s;
+                text-decoration: none;
+                
+            }
+            .copy-button:hover {
+                background-color: #285f85;
+            }
+            .copy-button:active {
+                background-color: #252525;
+            }
+            
+            .status-button {
+                padding: 6px 20px;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                width: 110px;
+                
+            }
+            
+            .status-live {
+                background-color: red;
+            }
+            .status-next {
+                background-color: blue;
+            }
+            .status-finished {
+                background-color: black;
+            }
+
+            #notification {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #252525;
+                color: #ffffff;
+                padding: 10px 20px;
+                border-radius: 5px;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.5s, transform 0.5s;
+            }
+            .footer {
+                background-color: #161616;
+                color: #fff;
+                text-align: center;
+                padding: 10px 0;
+                font-size: 14px;
+                border-top: 1px solid #3f8abd;
+            }
+            .update-text {
+                color: #18d763;
+                text-align: center;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }     
+            .open-link-icon {
+  font-size: 15px;
+  color: #007bff;
+  margin-left: auto; /* lo empuja a la derecha */
+  padding: 6px;
+  transition: color 0.2s ease;
+}
+
+.open-link-icon:hover {
+  color: #0056b3;
+}
+            .open-in-new-tab-icon {
+                font-size: 8px;
+                color: #007bff;
+                margin-left: 8px;
+                cursor: pointer;
+            }
+            .open-in-new-tab-icon:hover {
+                color: #0056b3;
+            }
+
+            .buttons_container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+             
+            }
+
+            .iframe-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.iframe-link {
+  flex-grow: 1;
+  min-width: 200px;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #080808;
+  color: #fff;
+  font-size: 0.9rem;
+      text-align: center;
+
+}
+
+.open-link-icon {
+  font-size: 1.2rem;
+  color: #007bff;
+  padding: 6px;
+  transition: color 0.2s ease;
+}
+
+.open-link-icon:hover {
+  color: #0056b3;
+}
+
+ #hora {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+            .language_text {
+                color: #dad8d8;
+                font-size: 12px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+
+            @media (max-width: 768px) {
+                .event {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .event-name {
+                    width: 100%;
+                }
+                .iframe-container
+                {
+                                width: 100%;
+                }
+                .iframe-link {
+                    width: 100%;
+                    margin-top: 10px;
+                    margin-left: 0;
+                }
+
+                .copy-button {
+                                
+                                
+                                margin-top: 10px;
+                                margin-left: 0;
+                }
+                .status-button {
+                                
+                                
+                                margin-top: 10px;
+                                margin-left: 0;
+                }
+
+                .buttons_container
+                {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                width: 100%;
+                }
+
+                .input-search
+                {
+                                width: 100%;    
+                }
+                
+                .language_text{
+                    display: none;
+                }
+
+                .open-in-new-tab-icon
+                {
+                    display: none;
+                }
+            } 
+            
+            @media (max-width: 480px) {
+  .iframe-link {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+        
+    </style>
 </head>
+
 <body>
-  <p>Redireccionando a Celta News...</p>
-  <p>Si no se redirige automáticamente, <a href="https://sites.google.com/view/celtanews/inicio?authuser=0">haz clic aquí</a>.</p>
+
+    <div class="container">
+        
+        
+        <h1 id="title">Eventos Deportivos | Sports Events</h1>
+        
+       <center>  <div id="hora"></div>
+        <script>
+    function actualizarHora() {
+      const ahora = new Date();
+      // Mostrar hora adaptada al usuario
+      const opciones = {
+        weekday: "long",  // día de la semana
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZoneName: "short" // muestra abreviatura de la zona horaria
+      };
+      const horaLocal = ahora.toLocaleString(undefined, opciones);
+      document.getElementById("hora").textContent = horaLocal;
+    }
+
+    // Actualiza cada segundo
+    setInterval(actualizarHora, 1000);
+    actualizarHora();
+  </script>
+        </center>
+       <p class="update-text">
+            Transmisiones.
+            <img src="https://flagcdn.com/es.svg" alt="Español" title="Español" style="width: 20px; height: 15px;">
+            <img src="https://flagcdn.com/us.svg" alt="Inglés" title="Inglés" style="width: 20px; height: 15px;">
+            <img src="https://flagcdn.com/br.svg" alt="Portugués" title="Portugués" style="width: 20px; height: 15px;">
+        </p>
+
+        <div class="search-container">
+            <input type="text" id="search" class="input-search" placeholder="Buscar eventos...">
+        </div>
+
+      <!--  <div class="categories" id="categories-container"></div> -->
+
+        <div id="events-container" class="events-container"></div>
+    </div>
+
+
+
+    <div class="footer">
+        <p>......</p>
+    </div>
+
+    <div id="notification">Enlace copiado</div>
+
+    <!-- LUXON -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/3.4.4/luxon.min.js"></script>
+    <!-- CUSTOM JS -->
+    <script src="/assetss/main2.js?v=1.5.8"></script>
+
 </body>
+
 </html>
